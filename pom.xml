@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mycompany</groupId>
-  <artifactId>APIMain</artifactId>
+  <artifactId>Allergy-diagnoster-App</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   
@@ -28,8 +28,8 @@
         <groupId>org.json</groupId>  
         <artifactId>json</artifactId>  
         <version>20180813</version>  
-    </dependency>  
+    </dependency> 
 
   </dependencies>
-  
+    <name>Allergy-diagnoster-App</name>
 </project>

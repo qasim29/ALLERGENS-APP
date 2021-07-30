@@ -19,16 +19,21 @@ public class ClientMedicalProfile extends Person{
     private int age;
     private int height;
     private int weight;
-    public ArrayList<ClientMedicalProfile> list_of_allergy = new ArrayList<>();
+    public ArrayList<String> UserAllergieslist;
+    
+    public ClientMedicalProfile(){
+       
+    }
     
     ClientMedicalProfile(String blood_group, String gender, int age, int height,
-            int weight, String name, String email, String address, int phone){
+            int weight, String name, String email, String address, int phone,ArrayList<String> UserAllergieslist){
         super(name, email, address, phone);
         this.blood_group = blood_group;
         this.gender = gender;
         this.age = age;
         this.height = height;
         this.weight = weight;
+        this.UserAllergieslist=UserAllergieslist;
     }
 
     /**
@@ -73,10 +78,16 @@ public class ClientMedicalProfile extends Person{
         this.weight = weight;
     }
     
-    ArrayList<ClientMedicalProfile> getAllergyList(){
-        return list_of_allergy;
+    public ArrayList<String> getUserAllergies(){
+        return UserAllergieslist;
     }
-     @Override
+
+    public void setUserAllergies(ArrayList<String> UserAllergieslist){
+        this.UserAllergieslist =UserAllergieslist;
+
+    }
+    
+    @Override
     public String toString() {
         return "ClientMedicalProfile{" + "blood_group=" + blood_group + ", gender=" + gender + ", age=" + age + ", height=" + height + ", weight=" + weight + '}';
     }
