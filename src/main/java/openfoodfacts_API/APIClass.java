@@ -59,11 +59,11 @@ public class APIClass {
                 listdata.add(w);
                 }
                 listdata.remove(0);
-                System.out.println("forloop arralist");
-                 for(String w:listdata){  
-                    System.out.println(w);
-                }
-                System.out.println(listdata);
+//                System.out.println("forloop arralist");
+//                 for(String w:listdata){  
+//                    System.out.println(w);
+//                }
+//                System.out.println(listdata);
                 }  
             } 
             catch (Exception e) 

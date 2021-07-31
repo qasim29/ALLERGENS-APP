@@ -5,6 +5,8 @@
  */
 package App_Classes;
 
+import openfoodfacts_API.MedicalEmergency;
+import java.io.IOException;
 import java.util.ArrayList;
 import openfoodfacts_API.APIClass;
 
@@ -12,14 +14,16 @@ import openfoodfacts_API.APIClass;
  *
  * @author Qasim.29
  */
-public class AllergyCheckUp{
+public class AllergyCheckUp {
     private String barcode;
     private String product_name;
     private ArrayList<String> matched_allergies = new ArrayList<>();
     ArrayList<String> UserAllergieslist;
     APIClass p1;
     
-    AllergyCheckUp(){
+    public AllergyCheckUp(String barcode){
+        this.barcode=barcode;
+        p1 = new APIClass(barcode);
     }
     
     public AllergyCheckUp(String barcode,String product_name,ArrayList<String> UserAllergieslist){
@@ -28,7 +32,10 @@ public class AllergyCheckUp{
         this.UserAllergieslist=UserAllergieslist;
         p1 = new APIClass(barcode); 
     }    
- 
+
+    public ArrayList<String> getUserAllergies(){
+        return UserAllergieslist ;
+    }
     public void setUserAllergies(ArrayList<String> list_of_allergy){
         this.UserAllergieslist =list_of_allergy;
     }
@@ -42,24 +49,23 @@ public class AllergyCheckUp{
     }
     
     public void checkAllergy(){
-        
+        getIngredientsFromAPI();
         for(String i:UserAllergieslist){
             for(String j:getIngredientsFromAPI()){
-                if(i==j){
+                int n = i.compareToIgnoreCase(j);
+                if(n==0)
+                {
                     matched_allergies.add(i);
                 }
             }
         }
     }
     public boolean isProductAllergic(){
-        if(matched_allergies.isEmpty()){
-            return false;
-        }
-        else return true;
+        return !matched_allergies.isEmpty();
     }
     
-    public String emrgency(MedicalEmergency e1){
-        return e1.showSuggestion();
+    public ArrayList<String> emrgency(MedicalEmergency m1) throws IOException{
+        return m1.showSuggestion(matched_allergies);
         
     }
     
