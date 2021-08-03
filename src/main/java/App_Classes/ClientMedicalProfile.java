@@ -16,24 +16,32 @@ import java.util.ArrayList;
 public class ClientMedicalProfile extends Person{
     private String blood_group;
     private String gender;
+
+
+    public ArrayList<String> getUserAllergieslist() {
+        return UserAllergieslist;
+    }
     private int age;
-    private int height;
-    private int weight;
+    private double height;
+    private double weight;
     public ArrayList<String> UserAllergieslist;
     
     public ClientMedicalProfile(){
        
     }
     
-    ClientMedicalProfile(String blood_group, String gender, int age, int height,
-            int weight, String name, String email, String address, int phone,ArrayList<String> UserAllergieslist){
-        super(name, email, address, phone);
+    ClientMedicalProfile(String name,String email,String blood_group,int age,double height,double weight,String phone, String Gender){
+        super(name,email,phone);
         this.blood_group = blood_group;
         this.gender = gender;
         this.age = age;
         this.height = height;
         this.weight = weight;
-        this.UserAllergieslist=UserAllergieslist;
+       
+    }
+
+    public ClientMedicalProfile(String name, String email,String phone) {
+        super(name, email, phone);
     }
 
     /**
@@ -76,6 +84,22 @@ public class ClientMedicalProfile extends Person{
      */
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+    
+    public String getGender() {
+        return gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWeight() {
+        return weight;
     }
     
     public ArrayList<String> getUserAllergies(){

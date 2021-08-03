@@ -29,7 +29,18 @@
         <artifactId>json</artifactId>  
         <version>20180813</version>  
     </dependency> 
-
+    
+    <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.26</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.external</groupId>
+      <artifactId>AbsoluteLayout</artifactId>
+      <version>RELEASE124</version>
+    </dependency>
   </dependencies>
     <name>Allergy-diagnoster-App</name>
 </project>
