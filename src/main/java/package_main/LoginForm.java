@@ -5,19 +5,26 @@
  */
 package package_main;
 
+import App_Classes.ClientMedicalProfile;
+import App_Classes.LoginClass;
+import app_dao.MysqlCon;
 import java.awt.Component;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Qasim.29
  */
+    
 public class LoginForm extends javax.swing.JPanel {
 
     /**
      * Creates new form LoginForm
      */
     private ClientMedicalProfileJFrame jf;
-
+    public static String email;
+    
+    public static LoginClass lc;
     public LoginForm(ClientMedicalProfileJFrame jf) {
         initComponents();
         this.jf = jf;
@@ -40,8 +47,8 @@ public class LoginForm extends javax.swing.JPanel {
         EditProfile1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtEmail = new javax.swing.JTextField();
+        txtPass = new javax.swing.JPasswordField();
         btnSignIn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -130,11 +137,11 @@ public class LoginForm extends javax.swing.JPanel {
         add(jLabel6);
         jLabel6.setBounds(490, 170, 40, 19);
 
-        jTextField4.setToolTipText("");
-        add(jTextField4);
-        jTextField4.setBounds(390, 190, 253, 33);
-        add(jPasswordField1);
-        jPasswordField1.setBounds(390, 270, 253, 39);
+        txtEmail.setToolTipText("");
+        add(txtEmail);
+        txtEmail.setBounds(390, 190, 253, 33);
+        add(txtPass);
+        txtPass.setBounds(390, 270, 253, 39);
 
         btnSignIn.setBackground(new java.awt.Color(71, 77, 122));
         btnSignIn.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -176,7 +183,14 @@ public class LoginForm extends javax.swing.JPanel {
     }//GEN-LAST:event_EditProfile1ActionPerformed
 
     private void btnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignInActionPerformed
-        jf.setMainPanel();
+        lc = new LoginClass((String)txtEmail.getText(),(String)txtPass.getText());
+        if (MysqlCon.checkCredentials(lc)) {
+            jf.setMainPanel();
+            email = (String)txtEmail.getText();
+        }
+        else{
+             JOptionPane.showMessageDialog(LoginForm.this,"incorrect values");
+        }
     }//GEN-LAST:event_btnSignInActionPerformed
 
 
@@ -191,7 +205,7 @@ public class LoginForm extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JPasswordField txtPass;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,24 +2,23 @@ package package_main;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.swing.ImageIcon;
 
 public class ClientMedicalProfileJFrame extends JFrame {
-
+// batool@gmail.com
     ProfileUpdateForm p1;
     UserAllergyForm a1;
+    CheckAllergyForm b1;
 
     public ClientMedicalProfileJFrame() {
         this.initComponents();
-        this.setVisibiltyFalse();
+        this.setVisibilityFalse();
         this.setLoginPanel();
-        BorderLayout layout = new BorderLayout();
-        DynamicPanel.setLayout(layout);
-        p1 = new ProfileUpdateForm(this);
-        a1 = new UserAllergyForm(this);
 
     }
 
@@ -29,14 +28,19 @@ public class ClientMedicalProfileJFrame extends JFrame {
 
         DynamicPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        imageLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         pnlmain = new javax.swing.JPanel();
         btnEditProfile = new javax.swing.JButton();
         btnSetAllergy = new javax.swing.JButton();
         btnCeckProduct = new javax.swing.JButton();
+        btnSignOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Alley");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImages(null);
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
@@ -64,6 +68,18 @@ public class ClientMedicalProfileJFrame extends JFrame {
 
         DynamicPanel.add(jPanel2);
         jPanel2.setBounds(0, 0, 710, 10);
+
+        imageLabel.setMaximumSize(new java.awt.Dimension(100, 100));
+        imageLabel.setMinimumSize(new java.awt.Dimension(100, 100));
+        imageLabel.setPreferredSize(new java.awt.Dimension(100, 100));
+        DynamicPanel.add(imageLabel);
+        imageLabel.setBounds(130, 70, 340, 270);
+
+        jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 0, 102));
+        jLabel1.setText("The Allergy Diagnoster App");
+        DynamicPanel.add(jLabel1);
+        jLabel1.setBounds(250, 290, 210, 21);
 
         getContentPane().add(DynamicPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 650, 600));
 
@@ -97,6 +113,23 @@ public class ClientMedicalProfileJFrame extends JFrame {
         btnCeckProduct.setText("Check Product");
         btnCeckProduct.setToolTipText("");
         btnCeckProduct.setAutoscrolls(true);
+        btnCeckProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCeckProductActionPerformed(evt);
+            }
+        });
+
+        btnSignOut.setBackground(new java.awt.Color(71, 77, 122));
+        btnSignOut.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        btnSignOut.setForeground(new java.awt.Color(255, 255, 255));
+        btnSignOut.setText("Sign Out");
+        btnSignOut.setToolTipText("");
+        btnSignOut.setAutoscrolls(true);
+        btnSignOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlmainLayout = new javax.swing.GroupLayout(pnlmain);
         pnlmain.setLayout(pnlmainLayout);
@@ -106,19 +139,22 @@ public class ClientMedicalProfileJFrame extends JFrame {
                 .addGroup(pnlmainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSetAllergy, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCeckProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnCeckProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSignOut, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 650, Short.MAX_VALUE))
         );
         pnlmainLayout.setVerticalGroup(
             pnlmainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlmainLayout.createSequentialGroup()
-                .addGap(109, 109, 109)
+                .addContainerGap()
                 .addComponent(btnEditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(btnSetAllergy, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(btnCeckProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(331, 331, 331))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 372, Short.MAX_VALUE)
+                .addComponent(btnSignOut, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         getContentPane().add(pnlmain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
@@ -135,11 +171,31 @@ public class ClientMedicalProfileJFrame extends JFrame {
         this.setUserAllergyForm();
     }//GEN-LAST:event_btnSetAllergyActionPerformed
 
+    private void btnCeckProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCeckProductActionPerformed
+        this.setCheckAllergyForm();
+    }//GEN-LAST:event_btnCeckProductActionPerformed
+
+    private void btnSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignOutActionPerformed
+
+        this.setLoginAgain();
+    }//GEN-LAST:event_btnSignOutActionPerformed
+
+    private void loadImage() {
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\Qasim.29\\Downloads\\logo.png"));
+            imageLabel.setIcon(new ImageIcon(myPicture.getScaledInstance(340, 340, 340)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addComponent(JPanel component) {
         for (Component c : this.getContentPane().getComponents()) {
             if (c instanceof LoginForm
-                    || c instanceof RegisterForm) {
+                    || c instanceof RegisterForm
+                    || c instanceof ProfileUpdateForm) {
                 this.getContentPane().remove(c);
+
             }
         }
         this.getContentPane().add(component, BorderLayout.CENTER);
@@ -147,13 +203,46 @@ public class ClientMedicalProfileJFrame extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    public void setLoginAgain() {
+        this.setVisibilityFalse();
+        this.setLoginPanel();
+    }
+
     private void removePanels() {
         for (Component c : this.DynamicPanel.getComponents()) {
-            if (c instanceof ProfileUpdateForm || c instanceof ProfileUpdateForm2)
-            {
-                this.DynamicPanel.remove(c);
+            if (c instanceof ProfileUpdateForm
+                    || c instanceof CheckAllergyForm
+                    || c instanceof UserAllergyForm) {
+                this.DynamicPanel.removeAll();
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
             }
         }
+        BorderLayout layout = new BorderLayout();
+        DynamicPanel.setLayout(layout);
+    }
+
+    private void setProfileUpdateForm() {
+        this.removePanels();
+
+        p1 = new ProfileUpdateForm(this);
+        DynamicPanel.add(p1, BorderLayout.CENTER);
+        p1.setVisible(true);
+    }
+
+    private void setUserAllergyForm() {
+        this.removePanels();
+
+        a1 = new UserAllergyForm(this);
+        DynamicPanel.add(a1, BorderLayout.CENTER);
+        a1.setVisible(true);
+    }
+
+    private void setCheckAllergyForm() {
+        this.removePanels();
+        b1 = new CheckAllergyForm(this);
+        DynamicPanel.add(b1, BorderLayout.CENTER);
+        b1.setVisible(true);
     }
 
     public void setMainPanel() {
@@ -164,6 +253,7 @@ public class ClientMedicalProfileJFrame extends JFrame {
             }
         }
         this.initComponents();
+       
     }
 
     private void setLoginPanel() {
@@ -173,37 +263,13 @@ public class ClientMedicalProfileJFrame extends JFrame {
         this.getContentPane().add(login);
     }
 
-    private void setVisibiltyFalse() {
+    private void setVisibilityFalse() {
         pnlmain.setVisible(false);
         btnCeckProduct.setVisible(false);
         btnEditProfile.setVisible(false);
         btnSetAllergy.setVisible(false);
         DynamicPanel.setVisible(false);
-
-    }
-
-    private void setProfileUpdateForm() {
-        this.removePanels();
-        BorderLayout layout = new BorderLayout();
-        DynamicPanel.setLayout(layout);
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        p1= new ProfileUpdateForm(this);
-        DynamicPanel.add(p1,BorderLayout.CENTER);
-        p1.setVisible(true);
-    }
-
-    private void setUserAllergyForm() {
-        this.removePanels();
-        BorderLayout layout = new BorderLayout();
-        DynamicPanel.setLayout(layout);
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        ProfileUpdateForm2 b1 = new ProfileUpdateForm2(this);
-        DynamicPanel.add(b1, BorderLayout.CENTER);
-        b1.setVisible(true);
+        imageLabel.setVisible(false);
     }
 
     public boolean isDouble(String txtAge) {
@@ -269,6 +335,9 @@ public class ClientMedicalProfileJFrame extends JFrame {
     private javax.swing.JButton btnCeckProduct;
     private javax.swing.JButton btnEditProfile;
     private javax.swing.JButton btnSetAllergy;
+    private javax.swing.JButton btnSignOut;
+    private javax.swing.JLabel imageLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel pnlmain;
     // End of variables declaration//GEN-END:variables

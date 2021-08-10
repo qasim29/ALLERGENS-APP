@@ -27,7 +27,7 @@ public class MedicalEmergency {
         for(String qry : matched_Allergies){
             URL url = null;
             try {
-                url = new URL("https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=013036536707430787589:_pqjad5hr1a&q=" + qry + "+allergy" + "&alt=json");
+                url = new URL("https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=013036536707430787589:_pqjad5hr1a&q=" + qry.replaceAll("\\s","") + "+allergy" + "&alt=json");
             } catch (MalformedURLException ex) {
                 Logger.getLogger(MedicalEmergency.class.getName()).log(Level.SEVERE, null, ex);
             }

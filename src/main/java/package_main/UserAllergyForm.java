@@ -5,22 +5,34 @@
  */
 package package_main;
 
+import app_dao.MysqlCon;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Qasim.29
  */
 public class UserAllergyForm extends javax.swing.JPanel {
+ 
 
+                // have to check either the value already exist in jList 
+                // have to set condition to dislay alredy set allergies.
+    
+    
     /**
      * Creates new form UserAllergyPanel
      */
     ClientMedicalProfileJFrame jf;
+    String id = "";
+    String email;
     public UserAllergyForm(ClientMedicalProfileJFrame jf) {
         initComponents();
-        this.jf=jf;
+        this.jf = jf;
+        this.retrieve(LoginForm.email);
+        email=LoginForm.email;
+        txtEmail.setText(LoginForm.email);
     }
-
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,15 +43,15 @@ public class UserAllergyForm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        txtFoodAllergy = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        EditProfile = new javax.swing.JButton();
-        EditProfile1 = new javax.swing.JButton();
+        jList = new javax.swing.JList<>();
+        btnDelete = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -57,12 +69,13 @@ public class UserAllergyForm extends javax.swing.JPanel {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText(" User Name : ");
+        jLabel3.setText(" User Email : ");
 
-        jTextField2.setBackground(new java.awt.Color(71, 77, 122));
-        jTextField2.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.setEnabled(false);
+        txtEmail.setBackground(new java.awt.Color(71, 77, 122));
+        txtEmail.setFont(new java.awt.Font("Candara", 0, 12)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(255, 255, 255));
+        txtEmail.setDisabledTextColor(new java.awt.Color(71, 77, 122));
+        txtEmail.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,10 +84,10 @@ public class UserAllergyForm extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
@@ -85,34 +98,39 @@ public class UserAllergyForm extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addContainerGap())
         );
 
-        jList1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        jList1.setSelectionBackground(new java.awt.Color(71, 77, 122));
-        jScrollPane1.setViewportView(jList1);
+        jList.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jList.setSelectionBackground(new java.awt.Color(71, 77, 122));
+        jList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jList);
 
-        EditProfile.setBackground(new java.awt.Color(71, 77, 122));
-        EditProfile.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        EditProfile.setForeground(new java.awt.Color(255, 255, 255));
-        EditProfile.setText("DELETE");
-        EditProfile.setAutoscrolls(true);
-        EditProfile.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setBackground(new java.awt.Color(71, 77, 122));
+        btnDelete.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setText("DELETE");
+        btnDelete.setAutoscrolls(true);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditProfileActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
 
-        EditProfile1.setBackground(new java.awt.Color(71, 77, 122));
-        EditProfile1.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        EditProfile1.setForeground(new java.awt.Color(255, 255, 255));
-        EditProfile1.setText("ADD");
-        EditProfile1.setAutoscrolls(true);
-        EditProfile1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setBackground(new java.awt.Color(71, 77, 122));
+        btnAdd.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setText("ADD");
+        btnAdd.setAutoscrolls(true);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditProfile1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -129,12 +147,12 @@ public class UserAllergyForm extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFoodAllergy, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EditProfile1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -145,38 +163,67 @@ public class UserAllergyForm extends javax.swing.JPanel {
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(EditProfile1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addComponent(EditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFoodAllergy, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)))
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+//        listModel.removeElementAt(jList.getSelectedIndex());
+        if (MysqlCon.jListDelete((String)txtFoodAllergy.getText())) {
+            JOptionPane.showMessageDialog(null, "Successfully Deleted");
+            txtFoodAllergy.setText("");
 
-    private void EditProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditProfileActionPerformed
-        //p1.setVisible(true);
-    }//GEN-LAST:event_EditProfileActionPerformed
+            retrieve(email);
+        } else {
+            JOptionPane.showMessageDialog(null, "Not Deleted");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void EditProfile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditProfile1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EditProfile1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+//        listModel.addElement(txtFoodAllergy.getText());
+//        jList.setModel(listModel);
 
+        if (MysqlCon.jListInsert(email,(String) txtFoodAllergy.getText())) {
+            JOptionPane.showMessageDialog(null, "Successfully Inserted");
+            txtFoodAllergy.setText("");
+            this.retrieve(email);
+        } else {
+            JOptionPane.showMessageDialog(null, "Not Inserted");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void jListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMouseClicked
+        id = jList.getSelectedValue();
+        txtFoodAllergy.setText(id);
+    }//GEN-LAST:event_jListMouseClicked
+    private void retrieve(String email) {
+        try {
+            DefaultListModel dm = MysqlCon.jListretrieve(email);
+            jList.setModel(dm);
+        } catch (Exception e) {
+            System.out.println("No! allergies present");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton EditProfile;
-    private javax.swing.JButton EditProfile1;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFoodAllergy;
     // End of variables declaration//GEN-END:variables
 }

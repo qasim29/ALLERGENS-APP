@@ -16,27 +16,27 @@ import java.util.ArrayList;
 public class ClientMedicalProfile extends Person{
     private String blood_group;
     private String gender;
-
-
-    public ArrayList<String> getUserAllergieslist() {
-        return UserAllergieslist;
-    }
     private int age;
     private double height;
     private double weight;
     public ArrayList<String> UserAllergieslist;
     
-    public ClientMedicalProfile(){
-       
-    }
-    
-    ClientMedicalProfile(String name,String email,String blood_group,int age,double height,double weight,String phone, String Gender){
-        super(name,email,phone);
+    public ClientMedicalProfile(String name,String email,String blood_group,int age,double height,double weight,String phone, String gender) {
+       super(name,email,phone);
         this.blood_group = blood_group;
-        this.gender = gender;
         this.age = age;
         this.height = height;
         this.weight = weight;
+        this.gender=gender;
+    }
+
+
+    public  ArrayList<String> getUserAllergieslist() {
+        return UserAllergieslist;
+    }
+
+    
+    public ClientMedicalProfile(){
        
     }
 
@@ -75,14 +75,14 @@ public class ClientMedicalProfile extends Person{
     /**
      * @param height the height to set
      */
-    public void setHeight(int height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
     /**
      * @param weight the weight to set
      */
-    public void setWeight(int weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
     

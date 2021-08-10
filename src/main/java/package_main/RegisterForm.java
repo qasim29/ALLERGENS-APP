@@ -5,7 +5,13 @@
  */
 package package_main;
 
+import App_Classes.ClientMedicalProfile;
+import App_Classes.LoginClass;
+import app_dao.MysqlCon;
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 /**
@@ -18,6 +24,7 @@ public class RegisterForm extends javax.swing.JPanel {
      * Creates new form RegisterForm
      */
     private ClientMedicalProfileJFrame jf;
+    private boolean inputCheckAge;
 
     public RegisterForm(ClientMedicalProfileJFrame jf) {
         initComponents();
@@ -43,7 +50,6 @@ public class RegisterForm extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jComBloodGroup = new javax.swing.JComboBox<>();
         txtHeight = new javax.swing.JTextField();
@@ -59,6 +65,7 @@ public class RegisterForm extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jComGender = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
+        txtPassword = new javax.swing.JPasswordField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(800, 600));
@@ -153,8 +160,6 @@ public class RegisterForm extends javax.swing.JPanel {
         jLabel7.setText("Password :");
         add(jLabel7);
         jLabel7.setBounds(260, 200, 72, 19);
-        add(txtPassword);
-        txtPassword.setBounds(260, 220, 253, 33);
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -177,7 +182,7 @@ public class RegisterForm extends javax.swing.JPanel {
             }
         });
         add(txtHeight);
-        txtHeight.setBounds(520, 220, 253, 33);
+        txtHeight.setBounds(520, 220, 253, 30);
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -275,11 +280,72 @@ public class RegisterForm extends javax.swing.JPanel {
 
         add(jPanel3);
         jPanel3.setBounds(240, 0, 710, 10);
+
+        txtPassword.setMaximumSize(new java.awt.Dimension(7, 20));
+        txtPassword.setPreferredSize(new java.awt.Dimension(7, 20));
+        add(txtPassword);
+        txtPassword.setBounds(260, 220, 250, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private void EditProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditProfileActionPerformed
-
+        if (this.checkBadInput()) {
+            JOptionPane.showMessageDialog(RegisterForm.this, "Please provide correct information! ");
+        } else if (MysqlCon.checkEmail(txtEmail.getText())) {
+            JOptionPane.showMessageDialog(RegisterForm.this,"Email Already Exist");
+        } else {
+//            ClientMedicalProfile(String name,String email,String blood_group,int age,double height,double weight,String phone, String Gender);
+            ClientMedicalProfile c1 = new ClientMedicalProfile((String)txtName.getText(),
+                    (String)txtEmail.getText(), (String)jComBloodGroup.getSelectedItem(), 
+                    Integer.parseInt(txtAge.getText()), Double.parseDouble(txtHeight.getText()),
+                    Double.parseDouble(txtWeight.getText()), (String)txtPhoneNo.getText(), 
+                    (String)jComGender.getSelectedItem());
+                    System.out.println(jComGender.getSelectedItem());
+                    MysqlCon.insertClientProfile(c1);
+                    JOptionPane.showMessageDialog(RegisterForm.this, "Profile successfully created! ");
+                    jf.addComponent(new LoginForm(this.jf));
+                    LoginClass q1 = new LoginClass((String)txtEmail.getText(),(String)txtPassword.getText());
+                    MysqlCon.setCredentials(q1);
+        }
     }//GEN-LAST:event_EditProfileActionPerformed
+
+    private boolean checkBadInput() {
+        if (txtAge.getText().trim().isEmpty()
+                || txtEmail.getText().trim().isEmpty()
+                || txtName.getText().trim().isEmpty()
+                || txtPhoneNo.getText().trim().isEmpty()
+                || txtPassword.getText().trim().isEmpty()
+                || txtWeight.getText().trim().isEmpty()
+                || txtHeight.getText().trim().isEmpty()) {
+            return true;
+        } else if (!jf.isDouble(txtWeight.getText())
+                || !jf.isInt(txtAge.getText())
+                || !jf.isDouble(txtHeight.getText())) {
+            return true;
+        }
+        // || !this.isValidMobileNo(txtPhoneNo.getText())
+        else if (!this.isEmailValidPattern()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEmailValidPattern() {
+        String regex = "^(.+)@(\\S+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(txtEmail.getText());
+        return matcher.matches();
+    }
+
+//    private boolean isValidMobileNo(String str) {
+//        //(0/91): number starts with (0/91)  
+//        //[7-9]: starting of the number may contain a digit between 0 to 9  
+//        //[0-9]: then contains digits 0 to 9  
+//        Pattern ptrn = Pattern.compile("(0/92)?[7-9][0-9]{9}"); 
+//        //the matcher() method creates a matcher that will match the given input against this pattern  
+//        Matcher match = ptrn.matcher(str);
+//        //returns a boolean value  
+//        return (match.find() && match.group().equals(str));
+//    }
 
     private void EditProfile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditProfile1ActionPerformed
         this.jf.addComponent(new LoginForm(this.jf));
@@ -290,46 +356,27 @@ public class RegisterForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jComBloodGroupActionPerformed
 
     private void txtAgeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAgeFocusLost
-        if (isInt(txtAge.getText()) != true) {
-            txtAge.setBorder(new LineBorder(Color.red, 1));
-        } else
+        if (jf.isInt(txtAge.getText())) {
             txtAge.setBorder(new LineBorder(Color.black, 1));
+        } else
+            txtAge.setBorder(new LineBorder(Color.red, 1));
     }//GEN-LAST:event_txtAgeFocusLost
 
     private void txtWeightFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtWeightFocusLost
-        if (isDouble(txtWeight.getText()) != true) {
-            txtWeight.setBorder(new LineBorder(Color.red, 1));
-        } else {
+        if (jf.isDouble(txtWeight.getText())) {
             txtWeight.setBorder(new LineBorder(Color.black, 1));
+        } else {
+            txtWeight.setBorder(new LineBorder(Color.red, 1));
         }
-
     }//GEN-LAST:event_txtWeightFocusLost
 
     private void txtHeightFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHeightFocusLost
-        if (isDouble(txtHeight.getText()) != true) {
+        if (jf.isDouble(txtHeight.getText()) != true) {
             txtHeight.setBorder(new LineBorder(Color.red, 1));
         } else {
             txtHeight.setBorder(new LineBorder(Color.black, 1));
         }
     }//GEN-LAST:event_txtHeightFocusLost
-    
-    private boolean isDouble(String txtAge) {
-        try {
-            double doub = Double.parseDouble(txtAge);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isInt(String txtAge) {
-        try {
-            int integernum = Integer.parseInt(txtAge);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton EditProfile;
@@ -355,7 +402,7 @@ public class RegisterForm extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHeight;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhoneNo;
     private javax.swing.JTextField txtWeight;
     // End of variables declaration//GEN-END:variables

@@ -23,11 +23,11 @@ import org.json.JSONObject;
  * @author Qasim.29
  */
 public class APIClass {        
-    private String barcode;
+   // private String barcode;
     public APIClass(String barcode){
-      this.barcode = barcode;
+    //  this.barcode = barcode;
     }
-    public ArrayList<String> getingredients(){
+    public ArrayList<String> getingredients(String barcode){
         
         ArrayList<String> listdata = new ArrayList<String>();
         try {
